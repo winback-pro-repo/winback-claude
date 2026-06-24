@@ -49,8 +49,41 @@ Ok "Windows detected"
 
 # ── 1. winget ───────────────────────────────────────────────────────────────────
 Step "Checking winget (the Windows app installer)"
+
+# winget.exe very often EXISTS but isn't resolvable: the WindowsApps execution-alias
+# folder isn't on PATH, or the App Installer package isn't registered for this user.
+# Try to fix both automatically before giving up.
+function Resolve-Winget {
+  if (Have winget) { return $true }
+  $apps = Join-Path $env:LOCALAPPDATA "Microsoft\WindowsApps"
+  if (Test-Path (Join-Path $apps "winget.exe")) {
+    $env:Path = "$apps;$env:Path"
+    if (Have winget) { return $true }
+  }
+  return $false
+}
+
+if (-not (Resolve-Winget)) {
+  Warn "winget isn't on PATH — trying to enable it automatically..."
+  # Re-register the App Installer package (fixes 'installed but not registered for this user').
+  try {
+    Get-AppxPackage Microsoft.DesktopAppInstaller -ErrorAction SilentlyContinue | ForEach-Object {
+      Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml" -ErrorAction SilentlyContinue
+    }
+  } catch {}
+  Start-Sleep -Seconds 2
+  Sync-Path
+  $null = Resolve-Winget
+}
+
 if (-not (Have winget)) {
-  Die "winget isn't available. Update Windows (Settings > Windows Update), or install 'App Installer' from the Microsoft Store, then re-run this command."
+  Die @"
+winget (the Windows app installer) isn't available and I couldn't enable it automatically.
+Quickest fix: open the Microsoft Store, search for 'App Installer', and click Install or Update.
+Then close this window, open a fresh PowerShell, and paste the install command again.
+(App Installer is the Microsoft app that provides 'winget'.)
+If the Microsoft Store is blocked on this PC, tell Dean — we'll install the tools another way.
+"@
 }
 Ok "winget ready"
 
