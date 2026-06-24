@@ -1,15 +1,27 @@
 # Winback Toolkit — strategist setup
 
 One command sets up everything you need to work with the Winback Klaviyo toolkit
-in Claude Code, from a fresh Mac.
+in Claude Code, from a fresh Mac **or Windows PC**.
 
 ## Run this
 
-Open a terminal (Cursor's built-in terminal is fine) and paste:
+Open a terminal (Cursor's built-in terminal is fine) and paste the line for your
+computer.
+
+**On a Mac** (Terminal / Cursor terminal — this is `zsh` or `bash`):
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/winback-pro-repo/winback-claude/main/install.sh | bash
 ```
+
+**On Windows** (PowerShell — the blue terminal; this is Cursor's default on Windows):
+
+```powershell
+irm https://raw.githubusercontent.com/winback-pro-repo/winback-claude/main/install.ps1 | iex
+```
+
+> Not sure which you're on? If pasting the Mac line gives a red `bash : ...
+> CommandNotFoundException`, you're on Windows — use the PowerShell line instead.
 
 It takes ~15–20 minutes, mostly waiting on installs. You'll do a few quick
 browser logins along the way (GitHub, 1Password, Claude). The script tells you
