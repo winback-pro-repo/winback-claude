@@ -77,7 +77,7 @@ Nine times out of ten it's the 1Password desktop app being **locked** — unlock
 it and retry. To re-run the connection test:
 
 ```bash
-cd ~/Desktop/winback-klaviyo-toolkit && source .venv/bin/activate && python scripts/test_supabase_connection.py
+cd ~/Winback/winback-klaviyo-toolkit && source .venv/bin/activate && python scripts/test_supabase_connection.py
 ```
 
 Still stuck after ~5 minutes? Send Dean the exact error message instead of

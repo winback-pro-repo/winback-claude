@@ -20,7 +20,11 @@ set -euo pipefail
 
 # ── config ──────────────────────────────────────────────────────────────────
 REPO="winback-pro-repo/winback-klaviyo-toolkit"
-DEST="${WINBACK_DIR:-$HOME/Desktop/winback-klaviyo-toolkit}"
+DEST="${WINBACK_DIR:-$HOME/Winback/winback-klaviyo-toolkit}"
+# Respect an install from the pre-2026-07 default location.
+if [ ! -e "$DEST" ] && [ -e "$HOME/Desktop/winback-klaviyo-toolkit" ]; then
+  DEST="$HOME/Desktop/winback-klaviyo-toolkit"
+fi
 OP_VAULT="klaviyo-toolkit"
 OP_ITEM="Supabase - Klaviyo Toolkit"
 

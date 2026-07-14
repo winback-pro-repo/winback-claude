@@ -20,7 +20,10 @@ $ErrorActionPreference = "Stop"
 
 # ── config ────────────────────────────────────────────────────────────────────
 $REPO     = "winback-pro-repo/winback-klaviyo-toolkit"
-$DEST     = if ($env:WINBACK_DIR) { $env:WINBACK_DIR } else { Join-Path $HOME "Desktop\winback-klaviyo-toolkit" }
+$DEST     = if ($env:WINBACK_DIR) { $env:WINBACK_DIR } else { Join-Path $HOME "Winback\winback-klaviyo-toolkit" }
+# Respect an install from the pre-2026-07 default location.
+$oldDest = Join-Path $HOME "Desktop\winback-klaviyo-toolkit"
+if (-not (Test-Path $DEST) -and (Test-Path $oldDest)) { $DEST = $oldDest }
 $OP_VAULT = "klaviyo-toolkit"
 $OP_ITEM  = "Supabase - Klaviyo Toolkit"
 
